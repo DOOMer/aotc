@@ -27,6 +27,8 @@
 
 #include <QtWidgets/QAction>
 
+#include <QtGui/QIcon>
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget), _mainMenu(nullptr)
@@ -64,6 +66,12 @@ void MainWidget::createMenu()
 {
     QAction* actInfo =  new QAction(tr("Info"), this);
     QAction* actQuit = new QAction(tr("Quit"), this);
+
+    QIcon iconInfo = QIcon::fromTheme("dialog-information", QIcon(":/dialog-information.png"));
+    QIcon iconQuit = QIcon::fromTheme("application-exit", QIcon(":/application-exit.png"));
+
+    actInfo->setIcon(iconInfo);
+    actQuit->setIcon(iconQuit);
 
     _mainMenu = new QMenu(this);
     _mainMenu->addAction(actInfo);

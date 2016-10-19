@@ -44,6 +44,7 @@ private:
 
     void createMenu();
     void showContextMenu(const QPoint &pos);
+    void showAbout();
 };
 
 #endif // MAINWIDGET_H

@@ -6,7 +6,7 @@ Project {
     property string app_target: "aotc"
 
     property int app_version_major: 0
-    property int app_version_minor: 2
+    property int app_version_minor: 9
 
     property string aotc_bin_path: "bin"
 

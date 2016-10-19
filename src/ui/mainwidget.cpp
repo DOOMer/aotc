@@ -26,6 +26,7 @@
 #include <QtCore/QTimer>
 
 #include <QtWidgets/QAction>
+#include <QtWidgets/QMessageBox>
 
 #include <QtGui/QIcon>
 
@@ -74,6 +75,7 @@ void MainWidget::createMenu()
     actQuit->setIcon(iconQuit);
 
     connect(actQuit, &QAction::triggered, this, &MainWidget::close);
+    connect(actInfo, &QAction::triggered, this, &MainWidget::showAbout);
 
     _mainMenu = new QMenu(this);
     _mainMenu->addAction(actInfo);
@@ -87,4 +89,20 @@ void MainWidget::createMenu()
 void MainWidget::showContextMenu(const QPoint &pos)
 {
     _mainMenu->exec(mapToGlobal(pos));
+}
+
+void MainWidget::showAbout()
+{
+    QString title = tr("About");
+    QString version = QStringLiteral(VERSION_MAJOR) + "." + QStringLiteral(VERSION_MINOR);
+    QString info = QStringLiteral("<b>Always on top clock</b> - v") + version + QStringLiteral("<hr>") + QStringLiteral("Simple clock utility") + QStringLiteral("<br /><br />") + QStringLiteral("Copyright (c) 20016, by DOOMer");
+
+    QMessageBox msg;
+
+    msg.setWindowTitle(title);
+    msg.setText(info);
+    msg.setIcon(QMessageBox::Information);
+    msg.setWindowIcon(QIcon::fromTheme("dialog-information", QIcon(":/dialog-information.png")) );
+
+    msg.exec();
 }

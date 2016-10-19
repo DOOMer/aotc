@@ -35,7 +35,7 @@ class MainWidget : public QWidget
 public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
-
+    void closeEvent(QCloseEvent *event);
     void showTime();
 
 private:

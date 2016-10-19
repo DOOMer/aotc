@@ -23,6 +23,7 @@
 #include "ui_mainwidget.h"
 
 #include <QtCore/QDateTime>
+#include <QtCore/QSettings>
 #include <QtCore/QTimer>
 
 #include <QtWidgets/QAction>
@@ -30,12 +31,19 @@
 
 #include <QtGui/QIcon>
 
+#include "globals.h"
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget), _mainMenu(nullptr)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     ui->setupUi(this);
+
+    QSettings settings(QS_APP_NAME, QS_APP_NAME);
+    settings.beginGroup(QS_BLOCK_WINDOW);
+    restoreGeometry(settings.value(QS_ITEM_GEOMETRY).toByteArray());
+    settings.endGroup();
 
     createMenu();
     showTime();
@@ -49,6 +57,16 @@ MainWidget::MainWidget(QWidget *parent) :
 MainWidget::~MainWidget()
 {
     delete ui;
+}
+
+void MainWidget::closeEvent(QCloseEvent *event)
+{
+    QSettings settings(QS_APP_NAME, QS_APP_NAME);
+    settings.beginGroup(QS_BLOCK_WINDOW);
+    settings.setValue(QS_ITEM_GEOMETRY, saveGeometry());
+    settings.endGroup();
+
+    QWidget::closeEvent(event);
 }
 
 void MainWidget::showTime()

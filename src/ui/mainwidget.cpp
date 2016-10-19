@@ -60,6 +60,9 @@ void MainWidget::showTime()
     ui->labTime->setText(timeStr);
     ui->labDate->setText(dateStr);
 
+    ui->labTime->setStyleSheet("QLabel { font-weight: bold; font-size: 32px }");
+    ui->labDate->setStyleSheet("QLabel { font-size: 16px }");
+
     setWindowTitle(timeStr + " - " + dateStr);
 }
 

@@ -52,4 +52,6 @@ void MainWidget::showTime()
 
     ui->labTime->setText(timeStr);
     ui->labDate->setText(dateStr);
+
+    setWindowTitle(timeStr + " - " + dateStr);
 }

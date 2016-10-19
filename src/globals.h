@@ -6,4 +6,9 @@
 #define QS_BLOCK_WINDOW "window"
 #define QS_ITEM_GEOMETRY "geometry"
 
+const int DEF_BKG_R = 0;
+const int DEF_BKG_G = 0;
+const int DEF_BKG_B = 0;
+const int DEF_BKG_A = 125;
+
 #endif // GLOBALS_H

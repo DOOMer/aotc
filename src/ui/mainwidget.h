@@ -36,6 +36,7 @@ public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
     void closeEvent(QCloseEvent *event);
+    void paintEvent(QPaintEvent *event);
     void showTime();
 
 private:

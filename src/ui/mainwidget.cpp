@@ -28,6 +28,7 @@
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
+#include <QtGui/QPainter>
 
 #include <QtGui/QIcon>
 
@@ -38,6 +39,9 @@ MainWidget::MainWidget(QWidget *parent) :
     ui(new Ui::MainWidget), _mainMenu(nullptr)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_ShowWithoutActivating);
+
     ui->setupUi(this);
 
     QSettings settings(QS_APP_NAME, QS_APP_NAME);
@@ -67,6 +71,25 @@ void MainWidget::closeEvent(QCloseEvent *event)
     settings.endGroup();
 
     QWidget::closeEvent(event);
+}
+
+void MainWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QRect roundedRect;
+    roundedRect.setX(rect().x() + 5);
+    roundedRect.setY(rect().y() + 5);
+    roundedRect.setWidth(rect().width() - 10);
+    roundedRect.setHeight(rect().height() - 10);
+
+    QColor colorBackground(DEF_BKG_R, DEF_BKG_B, DEF_BKG_G, DEF_BKG_A);
+    painter.setBrush(QBrush(colorBackground));
+    painter.setPen(Qt::NoPen);
+
+    painter.drawRoundedRect(roundedRect, 10, 10);
 }
 
 void MainWidget::showTime()

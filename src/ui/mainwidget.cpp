@@ -73,6 +73,8 @@ void MainWidget::createMenu()
     actInfo->setIcon(iconInfo);
     actQuit->setIcon(iconQuit);
 
+    connect(actQuit, &QAction::triggered, this, &MainWidget::close);
+
     _mainMenu = new QMenu(this);
     _mainMenu->addAction(actInfo);
     _mainMenu->addSeparator();

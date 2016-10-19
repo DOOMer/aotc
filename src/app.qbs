@@ -23,6 +23,7 @@ QtApplication {
     ])
 
     files: [
+        "globals.h",
         "main.cpp",
         "ui/*.h",
         "ui/*.cpp",

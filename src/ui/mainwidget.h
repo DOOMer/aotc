@@ -21,7 +21,8 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QMenu>
 
 namespace Ui {
 class MainWidget;
@@ -39,6 +40,10 @@ public:
 
 private:
     Ui::MainWidget *ui;
+    QMenu* _mainMenu;
+
+    void createMenu();
+    void showContextMenu(const QPoint &pos);
 };
 
 #endif // MAINWIDGET_H

@@ -25,13 +25,16 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QTimer>
 
+#include <QtWidgets/QAction>
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::MainWidget)
+    ui(new Ui::MainWidget), _mainMenu(nullptr)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     ui->setupUi(this);
 
+    createMenu();
     showTime();
 
     QTimer* timer = new QTimer(this);
@@ -55,4 +58,23 @@ void MainWidget::showTime()
     ui->labDate->setText(dateStr);
 
     setWindowTitle(timeStr + " - " + dateStr);
+}
+
+void MainWidget::createMenu()
+{
+    QAction* actInfo =  new QAction(tr("Info"), this);
+    QAction* actQuit = new QAction(tr("Quit"), this);
+
+    _mainMenu = new QMenu(this);
+    _mainMenu->addAction(actInfo);
+    _mainMenu->addSeparator();
+    _mainMenu->addAction(actQuit);
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &MainWidget::customContextMenuRequested, this, &MainWidget::showContextMenu);
+}
+
+void MainWidget::showContextMenu(const QPoint &pos)
+{
+    _mainMenu->exec(mapToGlobal(pos));
 }

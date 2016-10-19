@@ -35,6 +35,8 @@ public:
     explicit MainWidget(QWidget *parent = 0);
     ~MainWidget();
 
+    void showTime();
+
 private:
     Ui::MainWidget *ui;
 };

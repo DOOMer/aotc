@@ -22,14 +22,34 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 
+#include <QtCore/QDateTime>
+#include <QtCore/QTimer>
+
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
     ui->setupUi(this);
+
+    showTime();
+
+    QTimer* timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, &QTimer::timeout, this, &MainWidget::showTime);
+    timer->start();
 }
 
 MainWidget::~MainWidget()
 {
     delete ui;
+}
+
+void MainWidget::showTime()
+{
+    QDateTime dt = QDateTime::currentDateTime();
+    QString timeStr = dt.time().toString("hh:mm:ss");
+    QString dateStr = dt.date().toString();
+
+    ui->labTime->setText(timeStr);
+    ui->labDate->setText(dateStr);
 }

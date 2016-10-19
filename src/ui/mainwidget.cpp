@@ -29,6 +29,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWidget)
 {
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     ui->setupUi(this);
 
     showTime();

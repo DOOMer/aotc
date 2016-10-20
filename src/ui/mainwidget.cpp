@@ -37,13 +37,13 @@
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::MainWidget), _mainMenu(nullptr)
+    _ui(new Ui::MainWidget), _mainMenu(nullptr)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
 
-    ui->setupUi(this);
+    _ui->setupUi(this);
 
     QSettings settings(QS_APP_NAME, QS_APP_NAME);
     settings.beginGroup(QS_BLOCK_WINDOW);
@@ -61,7 +61,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
 MainWidget::~MainWidget()
 {
-    delete ui;
+    delete _ui;
 }
 
 void MainWidget::closeEvent(QCloseEvent *event)
@@ -99,11 +99,11 @@ void MainWidget::showTime()
     QString timeStr = dt.time().toString("hh:mm:ss");
     QString dateStr = dt.date().toString();
 
-    ui->labTime->setText(timeStr);
-    ui->labDate->setText(dateStr);
+    _ui->labTime->setText(timeStr);
+    _ui->labDate->setText(dateStr);
 
-    ui->labTime->setStyleSheet("QLabel { font-weight: bold; font-size: 32px }");
-    ui->labDate->setStyleSheet("QLabel { font-size: 16px }");
+    _ui->labTime->setStyleSheet("QLabel { font-weight: bold; font-size: 32px }");
+    _ui->labDate->setStyleSheet("QLabel { font-size: 16px }");
 
     setWindowTitle(timeStr + " - " + dateStr);
 }

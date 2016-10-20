@@ -28,25 +28,25 @@
 
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Settings)
+    _ui(new Ui::Settings)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
     load();
 
-    connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
+    connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
 }
 
 Settings::~Settings()
 {
-    delete ui;
+    delete _ui;
 }
 
 void Settings::load()
 {
     QSettings settings(QS_APP_NAME, QS_APP_NAME);
     settings.beginGroup(QS_BLOCK_MAIN);
-    ui->cbxDisplayDate->setChecked(settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool());
-    ui->cbxDisplaySeconds->setChecked(settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool());
+    _ui->cbxDisplayDate->setChecked(settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool());
+    _ui->cbxDisplaySeconds->setChecked(settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool());
     settings.endGroup();
 }
 
@@ -54,8 +54,8 @@ void Settings::save()
 {
     QSettings settings(QS_APP_NAME, QS_APP_NAME);
     settings.beginGroup(QS_BLOCK_MAIN);
-    settings.setValue(QS_ITEM_DISPLAY_DATE, ui->cbxDisplayDate->isChecked());
-    settings.setValue(QS_ITEM_DISPLAY_SECS, ui->cbxDisplaySeconds->isChecked());
+    settings.setValue(QS_ITEM_DISPLAY_DATE, _ui->cbxDisplayDate->isChecked());
+    settings.setValue(QS_ITEM_DISPLAY_SECS, _ui->cbxDisplaySeconds->isChecked());
     settings.endGroup();
 }
 
@@ -82,10 +82,10 @@ void Settings::defaults()
 
 void Settings::clickMapper(QAbstractButton *button)
 {
-    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
+    if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
         defaults();
     }
-    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Save) {
+    if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Save) {
         save();
     }
 }

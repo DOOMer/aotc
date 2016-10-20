@@ -40,7 +40,7 @@ public:
     void showTime();
 
 private:
-    Ui::MainWidget *ui;
+    Ui::MainWidget *_ui;
     QMenu* _mainMenu;
 
     void createMenu();

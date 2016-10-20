@@ -38,7 +38,7 @@ public:
     ~Settings();
 
 private:
-    Ui::Settings *ui;
+    Ui::Settings *_ui;
 
     void load();
     void save();

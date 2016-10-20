@@ -43,6 +43,9 @@ private:
     Ui::MainWidget *_ui;
     QMenu* _mainMenu;
 
+    bool _displayDate;
+    bool _displaySeconds;
+
     void createMenu();
     void showContextMenu(const QPoint &pos);
     void showSettings();

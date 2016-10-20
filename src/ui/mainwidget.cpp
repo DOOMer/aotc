@@ -50,6 +50,8 @@ MainWidget::MainWidget(QWidget *parent) :
     restoreGeometry(settings.value(QS_ITEM_GEOMETRY).toByteArray());
     settings.endGroup();
 
+    loadSettings();
+
     createMenu();
     showTime();
 
@@ -108,6 +110,15 @@ void MainWidget::showTime()
     setWindowTitle(timeStr + " - " + dateStr);
 }
 
+void MainWidget::loadSettings()
+{
+    QSettings settings(QS_APP_NAME, QS_APP_NAME);
+    settings.beginGroup(QS_BLOCK_MAIN);
+    _displayDate = settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool();
+    _displaySeconds = settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool();
+    settings.endGroup();
+}
+
 void MainWidget::createMenu()
 {
     QAction* actSettings =  new QAction(tr("Settings"), this);
@@ -149,7 +160,7 @@ void MainWidget::showSettings()
     int result = dlg->exec();
 
     if (result == QDialog::Accepted) {
-        // TODO reload settings
+        loadSettings();
     }
 
     delete dlg;

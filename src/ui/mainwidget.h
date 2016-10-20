@@ -46,6 +46,7 @@ private:
     bool _displayDate;
     bool _displaySeconds;
 
+    void loadSettings();
     void createMenu();
     void showContextMenu(const QPoint &pos);
     void showSettings();

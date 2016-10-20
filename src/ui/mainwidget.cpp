@@ -98,7 +98,14 @@ void MainWidget::paintEvent(QPaintEvent *event)
 void MainWidget::showTime()
 {
     QDateTime dt = QDateTime::currentDateTime();
-    QString timeStr = dt.time().toString("hh:mm:ss");
+    QString timeStr;
+
+    if (_displaySeconds) {
+        timeStr = dt.time().toString("hh:mm:ss");
+    } else {
+        timeStr = dt.time().toString("hh:mm");
+    }
+
     QString dateStr = dt.date().toString();
 
     _ui->labTime->setText(timeStr);
@@ -117,6 +124,8 @@ void MainWidget::loadSettings()
     _displayDate = settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool();
     _displaySeconds = settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool();
     settings.endGroup();
+
+    _ui->labDate->setVisible(_displayDate);
 }
 
 void MainWidget::createMenu()

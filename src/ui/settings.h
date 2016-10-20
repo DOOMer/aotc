@@ -22,7 +22,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QAbstractButton>
 
 namespace Ui {
 class Settings;
@@ -38,6 +39,11 @@ public:
 
 private:
     Ui::Settings *ui;
+
+    void load();
+    void save();
+    void defaults();
+    void clickMapper(QAbstractButton *button);
 };
 
 #endif // SETTINGS_H

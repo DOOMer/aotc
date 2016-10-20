@@ -21,14 +21,71 @@
 #include "settings.h"
 #include "ui_settings.h"
 
+#include <QtCore/QSettings>
+#include <QtWidgets/QMessageBox>
+
+#include "globals.h"
+
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
+    load();
+
+    connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
 }
 
 Settings::~Settings()
 {
     delete ui;
+}
+
+void Settings::load()
+{
+    QSettings settings(QS_APP_NAME, QS_APP_NAME);
+    settings.beginGroup(QS_BLOCK_MAIN);
+    ui->cbxDisplayDate->setChecked(settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool());
+    ui->cbxDisplaySeconds->setChecked(settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool());
+    settings.endGroup();
+}
+
+void Settings::save()
+{
+    QSettings settings(QS_APP_NAME, QS_APP_NAME);
+    settings.beginGroup(QS_BLOCK_MAIN);
+    settings.setValue(QS_ITEM_DISPLAY_DATE, ui->cbxDisplayDate->isChecked());
+    settings.setValue(QS_ITEM_DISPLAY_SECS, ui->cbxDisplaySeconds->isChecked());
+    settings.endGroup();
+}
+
+void Settings::defaults()
+{
+    QMessageBox msg;
+    msg.setWindowTitle(tr("Warning"));
+    msg.setText(tr("Do you want reset settings to default values?"));
+    msg.setIcon(QMessageBox::Question);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+
+    int result = msg.exec();
+
+    if (result == QMessageBox::Yes) {
+        QSettings settings(QS_APP_NAME, QS_APP_NAME);
+        settings.beginGroup(QS_BLOCK_MAIN);
+        settings.setValue(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE);
+        settings.setValue(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS);
+        settings.endGroup();
+
+        accept();
+    }
+}
+
+void Settings::clickMapper(QAbstractButton *button)
+{
+    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
+        defaults();
+    }
+    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Save) {
+        save();
+    }
 }

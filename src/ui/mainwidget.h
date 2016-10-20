@@ -45,6 +45,7 @@ private:
 
     void createMenu();
     void showContextMenu(const QPoint &pos);
+    void showSettings();
     void showAbout();
 };
 

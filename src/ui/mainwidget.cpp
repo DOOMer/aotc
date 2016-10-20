@@ -33,6 +33,7 @@
 #include <QtGui/QIcon>
 
 #include "globals.h"
+#include "ui/settings.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -109,19 +110,25 @@ void MainWidget::showTime()
 
 void MainWidget::createMenu()
 {
+    QAction* actSettings =  new QAction(tr("Settings"), this);
     QAction* actInfo =  new QAction(tr("Info"), this);
     QAction* actQuit = new QAction(tr("Quit"), this);
 
+    QIcon iconSettings = QIcon::fromTheme("preferences-desktop", QIcon(":/preferences-desktop.png"));
     QIcon iconInfo = QIcon::fromTheme("dialog-information", QIcon(":/dialog-information.png"));
     QIcon iconQuit = QIcon::fromTheme("application-exit", QIcon(":/application-exit.png"));
 
+    actSettings->setIcon(iconSettings);
     actInfo->setIcon(iconInfo);
     actQuit->setIcon(iconQuit);
 
+    connect(actSettings, &QAction::triggered, this, &MainWidget::showSettings);
     connect(actQuit, &QAction::triggered, this, &MainWidget::close);
     connect(actInfo, &QAction::triggered, this, &MainWidget::showAbout);
 
     _mainMenu = new QMenu(this);
+    _mainMenu->addAction(actSettings);
+    _mainMenu->addSeparator();
     _mainMenu->addAction(actInfo);
     _mainMenu->addSeparator();
     _mainMenu->addAction(actQuit);
@@ -133,6 +140,19 @@ void MainWidget::createMenu()
 void MainWidget::showContextMenu(const QPoint &pos)
 {
     _mainMenu->exec(mapToGlobal(pos));
+}
+
+void MainWidget::showSettings()
+{
+    Settings* dlg = new Settings;
+
+    int result = dlg->exec();
+
+    if (result == QDialog::Accepted) {
+        // TODO reload settings
+    }
+
+    delete dlg;
 }
 
 void MainWidget::showAbout()

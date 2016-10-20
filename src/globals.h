@@ -8,6 +8,9 @@
 #define QS_ITEM_DISPLAY_SECS "displaySeconds"
 #define QS_ITEM_DISPLAY_DATE "displayDate"
 
+const bool DEF_DISPLAY_DATE = false;
+const bool DEF_DISPLAY_SECS = true;
+
 const int DEF_BKG_R = 0;
 const int DEF_BKG_G = 0;
 const int DEF_BKG_B = 0;

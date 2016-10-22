@@ -26,6 +26,8 @@
 #include <QtCore/QSettings>
 #include <QtCore/QTimer>
 
+#include <QtGui/QCloseEvent>
+
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
 #include <QtGui/QPainter>
@@ -68,12 +70,24 @@ MainWidget::~MainWidget()
 
 void MainWidget::closeEvent(QCloseEvent *event)
 {
-    QSettings settings(QS_APP_NAME, QS_APP_NAME);
-    settings.beginGroup(QS_BLOCK_WINDOW);
-    settings.setValue(QS_ITEM_GEOMETRY, saveGeometry());
-    settings.endGroup();
+    QMessageBox msg;
+    msg.setWindowTitle(tr("AOTC"));
+    msg.setText(tr("Do you want to close the application?"));
+    msg.setIcon(QMessageBox::Question);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 
-    QWidget::closeEvent(event);
+    int result = msg.exec();
+
+    if (result == QMessageBox::Yes) {
+        QSettings settings(QS_APP_NAME, QS_APP_NAME);
+        settings.beginGroup(QS_BLOCK_WINDOW);
+        settings.setValue(QS_ITEM_GEOMETRY, saveGeometry());
+        settings.endGroup();
+
+        QWidget::closeEvent(event);
+    } else {
+        event->ignore();
+    }
 }
 
 void MainWidget::paintEvent(QPaintEvent *event)

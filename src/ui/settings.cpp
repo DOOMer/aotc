@@ -32,10 +32,11 @@ Settings::Settings(QWidget *parent) :
     _ui(new Ui::Settings)
 {
     _ui->setupUi(this);
-    load();
 
     connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
     connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
+
+    load();
 }
 
 Settings::~Settings()
@@ -49,6 +50,7 @@ void Settings::load()
     settings.beginGroup(QS_BLOCK_MAIN);
     _ui->cbxDisplayDate->setChecked(settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool());
     _ui->cbxDisplaySeconds->setChecked(settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool());
+    _ui->sliderTransparency->setValue(settings.value(QS_ITEM_TRABSPARENCY, DEF_BKG_A).toInt());
     settings.endGroup();
 }
 
@@ -58,6 +60,7 @@ void Settings::save()
     settings.beginGroup(QS_BLOCK_MAIN);
     settings.setValue(QS_ITEM_DISPLAY_DATE, _ui->cbxDisplayDate->isChecked());
     settings.setValue(QS_ITEM_DISPLAY_SECS, _ui->cbxDisplaySeconds->isChecked());
+    settings.setValue(QS_ITEM_TRABSPARENCY, _ui->sliderTransparency->value());
     settings.endGroup();
 }
 
@@ -76,6 +79,7 @@ void Settings::defaults()
         settings.beginGroup(QS_BLOCK_MAIN);
         settings.setValue(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE);
         settings.setValue(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS);
+        settings.setValue(QS_ITEM_TRABSPARENCY, DEF_BKG_A);
         settings.endGroup();
 
         accept();

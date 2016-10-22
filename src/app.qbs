@@ -32,7 +32,7 @@ QtApplication {
 
     Group {
         name: "Resources"
-//        prefix: "../"
+        prefix: "./"
         files: [
             "res.qrc",
         ]

@@ -44,6 +44,7 @@ private:
     void save();
     void defaults();
     void clickMapper(QAbstractButton *button);
+    void selectTransparency(quint8 value);
 };
 
 #endif // SETTINGS_H

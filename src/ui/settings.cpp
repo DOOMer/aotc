@@ -23,6 +23,7 @@
 
 #include <QtCore/QSettings>
 #include <QtWidgets/QMessageBox>
+#include <QtWidgets/QSlider>
 
 #include "globals.h"
 
@@ -34,6 +35,7 @@ Settings::Settings(QWidget *parent) :
     load();
 
     connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
+    connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
 }
 
 Settings::~Settings()
@@ -88,4 +90,9 @@ void Settings::clickMapper(QAbstractButton *button)
     if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Save) {
         save();
     }
+}
+
+void Settings::selectTransparency(quint8 value)
+{
+    _ui->labTransparencySelected->setText(QString::number(value));
 }

@@ -45,6 +45,7 @@ private:
 
     bool _displayDate;
     bool _displaySeconds;
+    quint8 _transparency;
 
     void loadSettings();
     void createMenu();

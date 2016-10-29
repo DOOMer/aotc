@@ -23,6 +23,7 @@
 
 #include <QtGui/QColor>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMenu>
 
 namespace Ui {
@@ -48,8 +49,10 @@ private:
     bool _displaySeconds;
     quint8 _transparency;
     QColor _bkgColor;
+    QColor _timeColor;
 
     void loadSettings();
+    void setupLabelFontColor(QLabel* label, const QColor& color);
     void createMenu();
     void showContextMenu(const QPoint &pos);
     void showSettings();

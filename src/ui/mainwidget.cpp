@@ -27,6 +27,8 @@
 #include <QtCore/QTimer>
 
 #include <QtGui/QCloseEvent>
+#include <QtGui/QFont>
+#include <QtGui/QPalette>
 
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
@@ -107,6 +109,8 @@ void MainWidget::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::NoPen);
 
     painter.drawRoundedRect(roundedRect, 10, 10);
+
+    setupLabelFontColor(_ui->labTime, _timeColor);
 }
 
 void MainWidget::showTime()
@@ -142,9 +146,26 @@ void MainWidget::loadSettings()
     _bkgColor = settings.value(QS_ITEM_BKG_CLORO, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
     _bkgColor.setAlpha(_transparency);
 
+    _timeColor = settings.value(QS_ITEM_TIME_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
+    setupLabelFontColor(_ui->labTime, _timeColor);
+
+    settings.endGroup();
+
+    settings.beginGroup(QS_BLOCK_FONTS);
+
+    QFont timeFont(settings.value(QS_ITEM_TIME_FONT, QStringLiteral("")).toString());
+    _ui->labTime->setFont(timeFont);
+
     settings.endGroup();
 
     _ui->labDate->setVisible(_displayDate);
+}
+
+void MainWidget::setupLabelFontColor(QLabel *label, const QColor &color)
+{
+    QPalette pal;
+    pal.setColor(QPalette::WindowText, color);
+    label->setPalette(pal);
 }
 
 void MainWidget::createMenu()

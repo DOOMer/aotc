@@ -22,7 +22,10 @@
 #include "ui_settings.h"
 
 #include <QtCore/QSettings>
+
+#include <QtGui/QFontDatabase>
 #include <QtGui/QPalette>
+
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QSlider>
@@ -37,6 +40,10 @@ Settings::Settings(QWidget *parent) :
 
     int frameStyle = QFrame::Sunken | QFrame::Panel;
     _ui->labBkgColorData->setFrameStyle(frameStyle);
+
+    QFontDatabase fonts;
+    _ui->cmbFontsForTime->addItem("");
+    _ui->cmbFontsForTime->addItems(fonts.families());
 
     connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
     connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
@@ -62,6 +69,11 @@ void Settings::load()
     setupBkgColorLabel(bkgColor);
 
     settings.endGroup();
+
+    settings.beginGroup(QS_BLOCK_FONTS);
+    _ui->cmbFontsForTime->setCurrentText(settings.value(QS_ITEM_TIME_FONT, QStringLiteral("")).toString());
+    settings.endGroup();
+
 }
 
 void Settings::save()
@@ -75,7 +87,10 @@ void Settings::save()
     QPalette pal = _ui->labBkgColorData->palette();
     QColor bkgColor = pal.background().color();
     settings.setValue(QS_ITEM_BKG_CLORO, bkgColor);
+    settings.endGroup();
 
+    settings.beginGroup(QS_BLOCK_FONTS);
+    settings.setValue(QS_ITEM_TIME_FONT, _ui->cmbFontsForTime->currentText());
     settings.endGroup();
 }
 
@@ -98,6 +113,10 @@ void Settings::defaults()
 
         QColor bkgColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B);
         settings.setValue(QS_ITEM_BKG_CLORO, bkgColor);
+        settings.endGroup();
+
+        settings.beginGroup(QS_BLOCK_FONTS);
+        settings.setValue(QS_ITEM_TIME_FONT, QStringLiteral(""));
         settings.endGroup();
 
         accept();

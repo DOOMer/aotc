@@ -8,6 +8,7 @@
 #define QS_ITEM_DISPLAY_SECS "displaySeconds"
 #define QS_ITEM_DISPLAY_DATE "displayDate"
 #define QS_ITEM_TRABSPARENCY "transparency"
+#define QS_ITEM_BKG_CLORO "backgroundColor"
 
 const bool DEF_DISPLAY_DATE = false;
 const bool DEF_DISPLAY_SECS = true;

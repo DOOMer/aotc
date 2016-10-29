@@ -45,6 +45,8 @@ private:
     void defaults();
     void clickMapper(QAbstractButton *button);
     void selectTransparency(quint8 value);
+    void selectBackgroundColor();
+    void setupBkgColorLabel(const QColor& color);
 };
 
 #endif // SETTINGS_H

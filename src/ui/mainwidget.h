@@ -21,6 +21,7 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
+#include <QtGui/QColor>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QMenu>
 
@@ -46,6 +47,7 @@ private:
     bool _displayDate;
     bool _displaySeconds;
     quint8 _transparency;
+    QColor _bkgColor;
 
     void loadSettings();
     void createMenu();

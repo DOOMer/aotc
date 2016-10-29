@@ -102,7 +102,7 @@ void MainWidget::paintEvent(QPaintEvent *event)
     roundedRect.setWidth(rect().width() - 10);
     roundedRect.setHeight(rect().height() - 10);
 
-    QColor colorBackground(DEF_BKG_R, DEF_BKG_B, DEF_BKG_G, _transparency);
+    QColor colorBackground(_bkgColor);
     painter.setBrush(QBrush(colorBackground));
     painter.setPen(Qt::NoPen);
 
@@ -138,6 +138,10 @@ void MainWidget::loadSettings()
     _displayDate = settings.value(QS_ITEM_DISPLAY_DATE, DEF_DISPLAY_DATE).toBool();
     _displaySeconds = settings.value(QS_ITEM_DISPLAY_SECS, DEF_DISPLAY_SECS).toBool();
     _transparency = settings.value(QS_ITEM_TRABSPARENCY, DEF_BKG_A).toInt();
+
+    _bkgColor = settings.value(QS_ITEM_BKG_CLORO, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
+    _bkgColor.setAlpha(_transparency);
+
     settings.endGroup();
 
     _ui->labDate->setVisible(_displayDate);

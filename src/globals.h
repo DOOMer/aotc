@@ -11,6 +11,7 @@
 #define QS_ITEM_TRABSPARENCY "transparency"
 #define QS_ITEM_BKG_CLORO "backgroundColor"
 #define QS_ITEM_TIME_FONT "timeFontFamily"
+#define QS_ITEM_TIME_COLOR "timeFontColor"
 
 const bool DEF_DISPLAY_DATE = false;
 const bool DEF_DISPLAY_SECS = true;

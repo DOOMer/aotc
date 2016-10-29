@@ -23,6 +23,7 @@
 #define SETTINGS_H
 
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QAbstractButton>
 
 namespace Ui {
@@ -46,7 +47,7 @@ private:
     void clickMapper(QAbstractButton *button);
     void selectTransparency(quint8 value);
     void selectBackgroundColor();
-    void setupBkgColorLabel(const QColor& color);
+    void setupBkgColorLabel(QLabel*label, const QColor& color);
 };
 
 #endif // SETTINGS_H

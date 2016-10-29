@@ -40,6 +40,7 @@ Settings::Settings(QWidget *parent) :
 
     int frameStyle = QFrame::Sunken | QFrame::Panel;
     _ui->labBkgColorData->setFrameStyle(frameStyle);
+    _ui->labTimeColor->setFrameStyle(frameStyle);
 
     QFontDatabase fonts;
     _ui->cmbFontsForTime->addItem("");
@@ -48,6 +49,7 @@ Settings::Settings(QWidget *parent) :
     connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
     connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
     connect(_ui->btnChangeBkgColor, &QPushButton::clicked, this, &Settings::selectBackgroundColor);
+    connect(_ui->btnChangeTimeColor, &QPushButton::clicked, this, &Settings::selectBackgroundColor);
 
     load();
 }
@@ -66,8 +68,10 @@ void Settings::load()
     _ui->sliderTransparency->setValue(settings.value(QS_ITEM_TRABSPARENCY, DEF_BKG_A).toInt());
 
     QColor bkgColor = settings.value(QS_ITEM_BKG_CLORO, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
-    setupBkgColorLabel(bkgColor);
+    setupBkgColorLabel(_ui->labBkgColorData, bkgColor);
 
+    QColor timeColor = settings.value(QS_ITEM_TIME_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
+    setupBkgColorLabel(_ui->labTimeColor, timeColor);
     settings.endGroup();
 
     settings.beginGroup(QS_BLOCK_FONTS);
@@ -87,6 +91,11 @@ void Settings::save()
     QPalette pal = _ui->labBkgColorData->palette();
     QColor bkgColor = pal.background().color();
     settings.setValue(QS_ITEM_BKG_CLORO, bkgColor);
+
+    pal = _ui->labTimeColor->palette();
+    QColor dtColor = pal.background().color();
+    settings.setValue(QS_ITEM_TIME_COLOR, dtColor);
+
     settings.endGroup();
 
     settings.beginGroup(QS_BLOCK_FONTS);
@@ -113,6 +122,9 @@ void Settings::defaults()
 
         QColor bkgColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B);
         settings.setValue(QS_ITEM_BKG_CLORO, bkgColor);
+
+        QColor dtColor(Qt::white);
+        settings.setValue(QS_ITEM_TIME_COLOR, dtColor);
         settings.endGroup();
 
         settings.beginGroup(QS_BLOCK_FONTS);
@@ -138,19 +150,38 @@ void Settings::selectTransparency(quint8 value)
     _ui->labTransparencySelected->setText(QString::number(value));
 }
 
+#include <QDebug>
+
 void Settings::selectBackgroundColor()
 {
-    QColor defColor = _ui->labBkgColorData->palette().background().color();
+    qDebug() << "change color " << sender()->objectName();
+
+    QLabel* labToChange = nullptr;
+
+    if (sender() == _ui->btnChangeBkgColor) {
+        labToChange = _ui->labBkgColorData;
+    } else if (sender() == _ui->btnChangeTimeColor) {
+        labToChange = _ui->labTimeColor;
+    }
+
+    QColor defColor;
+
+    if (labToChange) {
+        defColor = labToChange->palette().background().color();
+    } else {
+        defColor = QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B);
+    }
+
     QColor color = QColorDialog::getColor(defColor, this, tr("Select background color"));
 
-    if (color.isValid()) {
-        setupBkgColorLabel(color);
+    if (color.isValid() && labToChange) {
+        setupBkgColorLabel(labToChange, color);
     }
 }
 
-void Settings::setupBkgColorLabel(const QColor &color)
+void Settings::setupBkgColorLabel(QLabel *label, const QColor &color)
 {
-    _ui->labBkgColorData->setText(color.name());
-    _ui->labBkgColorData->setPalette(QPalette(color));
-    _ui->labBkgColorData->setAutoFillBackground(true);
+    label->setText(color.name());
+    label->setPalette(QPalette(color));
+    label->setAutoFillBackground(true);
 }

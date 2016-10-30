@@ -53,6 +53,7 @@ Settings::Settings(QWidget *parent) :
     connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
     connect(_ui->btnChangeBkgColor, &QPushButton::clicked, this, &Settings::selectBackgroundColor);
     connect(_ui->btnChangeTimeColor, &QPushButton::clicked, this, &Settings::selectBackgroundColor);
+    connect(_ui->btnChangeDateColor, &QPushButton::clicked, this, &Settings::selectBackgroundColor);
 
     load();
 }
@@ -75,6 +76,9 @@ void Settings::load()
 
     QColor timeColor = settings.value(QS_ITEM_TIME_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
     setupBkgColorLabel(_ui->labTimeColor, timeColor);
+
+    QColor dateColor = settings.value(QS_ITEM_DATE_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
+    setupBkgColorLabel(_ui->labDateColor, dateColor);
     settings.endGroup();
 
     settings.beginGroup(QS_BLOCK_FONTS);
@@ -99,6 +103,10 @@ void Settings::save()
     pal = _ui->labTimeColor->palette();
     QColor dtColor = pal.background().color();
     settings.setValue(QS_ITEM_TIME_COLOR, dtColor);
+
+    pal = _ui->labDateColor->palette();
+    dtColor = pal.background().color();
+    settings.setValue(QS_ITEM_DATE_COLOR, dtColor);
 
     settings.endGroup();
 
@@ -130,6 +138,7 @@ void Settings::defaults()
 
         QColor dtColor(Qt::white);
         settings.setValue(QS_ITEM_TIME_COLOR, dtColor);
+        settings.setValue(QS_ITEM_DATE_COLOR, dtColor);
         settings.endGroup();
 
         settings.beginGroup(QS_BLOCK_FONTS);
@@ -168,6 +177,8 @@ void Settings::selectBackgroundColor()
         labToChange = _ui->labBkgColorData;
     } else if (sender() == _ui->btnChangeTimeColor) {
         labToChange = _ui->labTimeColor;
+    } else if (sender() == _ui->btnChangeDateColor) {
+        labToChange = _ui->labDateColor;
     }
 
     QColor defColor;

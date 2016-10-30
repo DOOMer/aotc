@@ -13,6 +13,7 @@
 #define QS_ITEM_TIME_FONT "timeFontFamily"
 #define QS_ITEM_TIME_COLOR "timeFontColor"
 #define QS_ITEM_DATE_FONT "dateFontFamily"
+#define QS_ITEM_DATE_COLOR "dateFontColor"
 
 const bool DEF_DISPLAY_DATE = false;
 const bool DEF_DISPLAY_SECS = true;

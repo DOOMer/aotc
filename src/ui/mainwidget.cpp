@@ -111,6 +111,7 @@ void MainWidget::paintEvent(QPaintEvent *event)
     painter.drawRoundedRect(roundedRect, 10, 10);
 
     setupLabelFontColor(_ui->labTime, _timeColor);
+    setupLabelFontColor(_ui->labDate, _dateColor);
 }
 
 void MainWidget::showTime()
@@ -148,6 +149,8 @@ void MainWidget::loadSettings()
 
     _timeColor = settings.value(QS_ITEM_TIME_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
     setupLabelFontColor(_ui->labTime, _timeColor);
+    _dateColor = settings.value(QS_ITEM_DATE_COLOR, QColor(DEF_BKG_R, DEF_BKG_G, DEF_BKG_B)).value<QColor>();
+    setupLabelFontColor(_ui->labDate, _dateColor);
 
     settings.endGroup();
 

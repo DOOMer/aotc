@@ -50,6 +50,7 @@ private:
     quint8 _transparency;
     QColor _bkgColor;
     QColor _timeColor;
+    QColor _dateColor;
 
     void loadSettings();
     void setupLabelFontColor(QLabel* label, const QColor& color);

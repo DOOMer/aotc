@@ -41,10 +41,13 @@ Settings::Settings(QWidget *parent) :
     int frameStyle = QFrame::Sunken | QFrame::Panel;
     _ui->labBkgColorData->setFrameStyle(frameStyle);
     _ui->labTimeColor->setFrameStyle(frameStyle);
+    _ui->labDateColor->setFrameStyle(frameStyle);
 
     QFontDatabase fonts;
     _ui->cmbFontsForTime->addItem("");
     _ui->cmbFontsForTime->addItems(fonts.families());
+    _ui->cmbFontsForDate->addItem("");
+    _ui->cmbFontsForDate->addItems(fonts.families());
 
     connect(_ui->buttonBox, &QDialogButtonBox::clicked, this, &Settings::clickMapper);
     connect(_ui->sliderTransparency, &QSlider::valueChanged, this, &Settings::selectTransparency);
@@ -76,6 +79,7 @@ void Settings::load()
 
     settings.beginGroup(QS_BLOCK_FONTS);
     _ui->cmbFontsForTime->setCurrentText(settings.value(QS_ITEM_TIME_FONT, QStringLiteral("")).toString());
+    _ui->cmbFontsForDate->setCurrentText(settings.value(QS_ITEM_DATE_FONT, QStringLiteral("")).toString());
     settings.endGroup();
 
 }
@@ -100,6 +104,7 @@ void Settings::save()
 
     settings.beginGroup(QS_BLOCK_FONTS);
     settings.setValue(QS_ITEM_TIME_FONT, _ui->cmbFontsForTime->currentText());
+    settings.setValue(QS_ITEM_DATE_FONT, _ui->cmbFontsForDate->currentText());
     settings.endGroup();
 }
 
@@ -129,6 +134,7 @@ void Settings::defaults()
 
         settings.beginGroup(QS_BLOCK_FONTS);
         settings.setValue(QS_ITEM_TIME_FONT, QStringLiteral(""));
+        settings.setValue(QS_ITEM_DATE_FONT, QStringLiteral(""));
         settings.endGroup();
 
         accept();
